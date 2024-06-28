@@ -32,6 +32,22 @@ router.post('/users', async (req, res) => {
     }
   });
 
+  router.delete('/deleteUser/:id', async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      const user = await User.findByIdAndDelete(id);
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      res.status(200).json({ message: 'User deleted successfully', user });
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      res.status(400).json({ error: 'Error deleting user', details: error.message });
+    }
+  });
+
   router.post('/user-login', async (req, res) => {
     const {phone, password,role } = req.body;
   
@@ -231,6 +247,7 @@ router.post('/users', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+  
   router.get('/dueamount/:userId', async (req, res) => {
     try {
       const dueamountDetails = await dueamount.findOne({ userId: req.params.userId });
