@@ -266,13 +266,32 @@ router.post('/users', async (req, res) => {
   ///////////////////////////////////////////user/////////////////////////////////////////////////
 
 
+  // router.get('/my-status/:userid', async (req, res) => {
+  //   const { userid } = req.params;
+  
+  //   try {
+  //     const collectionData = await collection.find({ userId: userid }, 'collection_date iscollect').exec();
+  //     const organicDates = await organic.find({ userId: userid }, 'collection_date').exec();
+  //     const inorganicDates = await inorganic.find({ userId: userid }, 'collection_date').exec();
+  
+  //     res.status(200).json({
+  //       collectionData,
+  //       organicDates,
+  //       inorganicDates
+  //     });
+  //   } catch (error) {
+  //     console.error('Error fetching collection dates:', error);
+  //     res.status(500).json({ error: 'Internal Server Error' });
+  //   }
+  // });
+  
   router.get('/my-status/:userid', async (req, res) => {
     const { userid } = req.params;
   
     try {
-      const collectionData = await collection.find({ userId: userid }, 'collection_date iscollect').exec();
-      const organicDates = await organic.find({ userId: userid }, 'collection_date').exec();
-      const inorganicDates = await inorganic.find({ userId: userid }, 'collection_date').exec();
+      const collectionData = await collection.find({ userId: userid }, 'collection_date iscollect due amount report').exec();
+      const organicDates = await organic.find({ userId: userid }, 'Collection_date quality quantity user_fee report waste_type').exec();
+      const inorganicDates = await inorganic.find({ userId: userid }, 'Collection_date quality quantity user_fee report waste_type').exec();
   
       res.status(200).json({
         collectionData,
@@ -284,8 +303,6 @@ router.post('/users', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-  
-  
 
   router.post('/bulk-waste-collection', async (req, res) => {
     const { userId, ward, latitude, longitude, reson } = req.body;
